@@ -16,6 +16,8 @@
   <script type="text/javascript" src="./include/jquery-ui-1.10.4.custom.min.js"></script>
   <script type="text/javascript" src="./include/jquery.validate.min.js"></script>
   <script src="./bootstrap-3.3.5/js/bootstrap.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script type="text/javascript">
     $.get('./include/api.php', function(data) {
