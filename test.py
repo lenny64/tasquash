@@ -3,11 +3,14 @@
 
 import sys
 import json
+import requests
 
 def main():
-    category = 150
-    probabiliy = 0.653785
-    response = {"status":200, "message":"Everything is fine.", "data":{"category": category, "probabiliy": probabiliy}}
-    print json.dumps(response)
+    s = "query"
+    res = requests.post("http://51.83.44.173/api/enlecs2/", data=s)
+    if str(res) == '<Response [500]>':
+        print("Server Error")
+    else:
+        print(res.json())
 
 main()
