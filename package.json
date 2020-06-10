@@ -1,0 +1,29 @@
+{
+  "name": "tasquash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.8.0",
+    "angular-cookies": "^1.8.0",
+    "angular-route": "^1.8.0",
+    "bootstrap": "^4.5.0",
+    "jquery": "^3.5.1",
+    "jqueryui": "^1.11.1",
+    "open-iconic": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lenny64/tasquash.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lenny64/tasquash/issues"
+  },
+  "homepage": "https://github.com/lenny64/tasquash#readme"
+}

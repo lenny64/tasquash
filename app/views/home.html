@@ -1,0 +1,63 @@
+<div class="container-fluid bg-dark" ng-hide="logged_in == true">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-7 my-4 text-white">
+                <div class="jumbotron jumbotron-fluid" style="background-color: transparent;">
+                    <h1 class="display-4">Welcome to TasQuash</h1>
+                    <p class="lead">Hire for the best. Find your ressources for any job you'd like to be done. We do the rest</p>
+                    <hr class="my-4">
+                    <p class="lead">
+                        <a class="btn btn-outline-primary btn-lg btn-rounded" href="#" role="button">Sign in now</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 my-4">
+                <div class="card" ng-controller="loginController">
+                    <div class="card-body">
+                        <div class="form-group mt-3">
+                            <label for="user_login">Username</label>
+                            <input type="text" id="user_login" ng-model="user_login" class="form-control form-control-lg" placeholder="Login"/>
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="user_password">Password</label>
+                            <input type="password" id="user_password" ng-model="user_password" class="form-control form-control-lg" placeholder="Login"/>
+                        </div>
+                        <div class="my-4">
+                            <button type="button" class="btn btn-lg btn-rounded-lg btn-success btn-block p-3" ng-click="login()">Sign up for TasQuash</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Not registered? <button type="button" class="btn btn-outline-primary btn-rounded">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid bg-dark text-white pt-3" ng-show="logged_in === false">
+    <h3 class="ml-3">Tasks</h3>
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            <div class="card text-dark my-1" ng-repeat="tache in taches_liste">
+                <div class="card-header p-0"><button class="btn btn-block text-left" type="button" ng-click="tache.show = true">{{tache.titre}}</div>
+                <div class="card-body">
+                    <p class="card-text">{{tache.descriptionCourte}}</p>
+                    <p class="card-text">{{tache.pseudo}} <span class="oi oi-star" ng-repeat="x in [].constructor(tache.rating) track by $index"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-9 text-white">
+            <div ng-repeat="tache in taches_liste" ng-show="tache.show == true">
+                <h3>{{tache.titre}}</h3>
+                <p class="lead">
+                    {{tache.descriptionCourte}}
+                </p>
+                <p>
+                    {{tache.contenu}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
