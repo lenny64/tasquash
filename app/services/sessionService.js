@@ -4,7 +4,18 @@ tasquash.service('sessionService', ['$cookies', function($cookies) {
 
     this.setUserLoggedIn = function() {
         this.logged_in = true;
-        $cookies.logged_in = true;
+        $cookies.put('logged_in', true);
+    }
+    this.getUserLoggedIn = function() {
+        if ($cookies.get('logged_in') === "true" || this.logged_in === true) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    this.logOut = function() {
+        $cookies.put('logged_in', false);
+        this.logged_in = false;
     }
 
 }]);

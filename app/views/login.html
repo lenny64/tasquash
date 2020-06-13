@@ -1,34 +1,22 @@
 <div class="container-fluid bg-dark">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-5 my-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-group mt-3">
-                            <label for="user_login">Username</label>
-                            <input type="text" id="user_login" ng-model="user_login" class="form-control form-control-lg" placeholder="Login"/>
-                        </div>
-                        <div class="form-group my-3">
-                            <label for="user_password">Password</label>
-                            <input type="password" id="user_password" ng-model="user_password" class="form-control form-control-lg" placeholder="Login"/>
-                        </div>
-                        <div class="my-4">
-                            <button type="button" class="btn btn-lg btn-rounded-lg btn-success btn-block p-3" ng-click="login()">Sign up for TasQuash</button>
-                        </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5 my-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group mt-3">
+                        <label for="user_login">Username</label>
+                        <input type="text" id="user_login" ng-model="user_login" class="form-control form-control-lg" placeholder="Login"/>
                     </div>
-                    <div class="card-body">
-                        <button type="button" class="btn btn-outline-primary btn-rounded btn-block">Sign in</button>
+                    <div class="form-group my-3">
+                        <label for="user_password">Password</label>
+                        <input type="password" id="user_password" ng-model="user_password" class="form-control form-control-lg" placeholder="Password"/>
+                    </div>
+                    <div class="my-1">
+                        <button type="button" class="btn btn-lg btn-rounded-lg btn-success btn-block p-3" ng-click="login()">Sign up for TasQuash</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-7 my-4 text-white">
-                <div class="jumbotron jumbotron-fluid" style="background-color: transparent;">
-                    <h1 class="display-4">Get your tasks done</h1>
-                    <p class="lead">Only a single click can help you get things done with the help of the huge TasQuasher community.</p>
-                    <hr class="my-4">
-                    <p class="lead">
-                        <a class="btn btn-outline-primary btn-lg btn-rounded" href="#" role="button">Sign in now</a>
-                    </p>
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-primary btn-rounded btn-block">Sign in</button>
                 </div>
             </div>
         </div>

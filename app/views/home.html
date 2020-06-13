@@ -36,28 +36,26 @@
 </div>
 
 
-<div class="container-fluid bg-dark text-white pt-3" ng-show="logged_in === false">
+<div class="container-fluid bg-dark text-white pt-3" ng-show="logged_in == true">
     <h3 class="ml-3">Tasks</h3>
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card text-dark my-1" ng-repeat="tache in taches_liste">
-                <div class="card-header p-0"><button class="btn btn-block text-left" type="button" ng-click="tache.show = true">{{tache.titre}}</div>
+                <div class="card-header p-0"><button class="btn btn-block text-left" type="button" ng-click="montrerTache(tache)">{{tache.titre}}</div>
                 <div class="card-body">
                     <p class="card-text">{{tache.descriptionCourte}}</p>
                     <p class="card-text">{{tache.pseudo}} <span class="oi oi-star" ng-repeat="x in [].constructor(tache.rating) track by $index"></span></p>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-9 text-white">
-            <div ng-repeat="tache in taches_liste" ng-show="tache.show == true">
-                <h3>{{tache.titre}}</h3>
-                <p class="lead">
-                    {{tache.descriptionCourte}}
-                </p>
-                <p>
-                    {{tache.contenu}}
-                </p>
-            </div>
+        <div class="col-12 col-sm-9" ng-show="tache_to_show != false">
+            <h3>{{tache_to_show.titre}}</h3>
+            <p class="lead">
+                {{tache_to_show.descriptionCourte}}
+            </p>
+            <p>
+                {{tache_to_show.contenu}}
+            </p>
         </div>
     </div>
 </div>

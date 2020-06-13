@@ -8,8 +8,9 @@
         <li class="nav-item active" ng-repeat="item in navbar">
             <a class="nav-link" href="{{item.lien}}">{{item.texte}}</a>
         </li>
-        <li class="nav-item active" ng-show="logged_in = true">
-            <button type="button" class="btn btn-rounded" ng-click="logged_in = false">Log out</button>
+        <li class="nav-item active" ng-show="logged_in == true">
+            <button type="button" class="btn btn-rounded" ng-show="logged_in == true" ng-click="logout()">Log out</button>
+            <a class="btn btn-rounded" ng-show="logged_in != true" href="#/login">Log in</a>
         </li>
     </ul>
     </div>

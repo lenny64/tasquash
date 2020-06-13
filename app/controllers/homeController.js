@@ -1,7 +1,7 @@
 tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'apiService', 'sessionService', function($scope, $cookies, $routeParams, $apiService, $sessionService) {
 
-    $scope.logged_in = $sessionService.logged_in;
-    
+    $scope.logged_in = $sessionService.getUserLoggedIn();
+
     $scope.taches_liste = [
         {
             titre: "Poser du parquet",
@@ -24,5 +24,10 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
             rating: 1,
             pseudo: "Didier_3"
         }
-    ]
+    ];
+
+    $scope.montrerTache = function(tache) {
+        $scope.tache_to_show = tache;
+    }
+    $scope.tache_to_show = false;
 }]);
