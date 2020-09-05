@@ -1,4 +1,4 @@
-var tasquash = angular.module('tasquash', ['ngRoute', 'ngCookies']);
+var tasquash = angular.module('tasquash', ['ngMaterial', 'ngRoute', 'ngCookies']);
 
 
 tasquash.config(function($routeProvider) {
@@ -20,3 +20,6 @@ tasquash.config(function($routeProvider) {
 tasquash.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
+
+tasquash.run(function() {
+});

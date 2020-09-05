@@ -36,26 +36,94 @@
 </div>
 
 
-<div class="container-fluid bg-dark text-white pt-3" ng-show="logged_in == true">
-    <h3 class="ml-3">Tasks</h3>
+<div class="container" ng-show="logged_in == true">
     <div class="row">
-        <div class="col-12 col-sm-3">
-            <div class="card text-dark my-1" ng-repeat="tache in taches_liste">
-                <div class="card-header p-0"><button class="btn btn-block text-left" type="button" ng-click="montrerTache(tache)">{{tache.titre}}</div>
-                <div class="card-body">
-                    <p class="card-text">{{tache.descriptionCourte}}</p>
-                    <p class="card-text">{{tache.pseudo}} <span class="oi oi-star" ng-repeat="x in [].constructor(tache.rating) track by $index"></span></p>
-                </div>
-            </div>
+        <div class="col-12">
+            <h3>Users</h3>
+            <select class="form-control" ng-model="selected_user" ng-options="user as user.firstname for user in users_list" ng-change="selectUser()">
+                <option value="">User</option>
+            </select>
         </div>
-        <div class="col-12 col-sm-9" ng-show="tache_to_show != false">
-            <h3>{{tache_to_show.titre}}</h3>
-            <p class="lead">
-                {{tache_to_show.descriptionCourte}}
-            </p>
-            <p>
-                {{tache_to_show.contenu}}
-            </p>
+    </div>
+    <div class="row" ng-show="selected_user">
+        <div class="col-12">
+            <h3>Skills</h3>
+            <div ng-repeat="skill in selected_user.skills_list">
+                {{skill.name}} <small>{{skill.text}}</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_skill_form = !show_user_skill_form"><span class="oi oi-plus"></span> skill</button>
+            <form class="form small" ng-submit="addUserSkill()" ng-show="show_user_skill_form">
+                <div class="row form-group my-2">
+                    <div class="col-4">
+                        <select class="form-control form-control-sm" ng-model="selected_skill" ng-options="skill as skill.name for skill in all_skills_list"></select>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control form-control-sm" ng-model="text" placeholder="Description of my skill that will appear in my profile" required>
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-sm btn-success" value="Add"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12">
+            <h3>Tasks submitted</h3>
+            <div ng-repeat="task in selected_user.tasks_list">
+                {{task.title}} - {{task.description}} ({{task.category}})
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
+            <form class="form small" ng-submit="addUserTask()" ng-show="show_user_task_form">
+                <div class="row form-group my-2">
+                    <div class="col-4">
+                        <select class="form-control form-control-sm" ng-model="selected_skill" ng-options="skill as skill.name for skill in all_skills_list"></select>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control form-control-sm" ng-model="text" placeholder="Description of my skill that will appear in my profile" required>
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-sm btn-success" value="Add"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12">
+            <h3>Possible squashs</h3>
+            <div ng-repeat="squash in selected_user.possible_squashs_list">
+                {{squash.title}} - {{squash.description}} ({{squash.category}})
+            </div>
         </div>
     </div>
 </div>
+
+
+<!-- <div class="column" layout-fill="">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2 md-truncate="" flex="">TasQuash</h2>
+
+          <md-button>
+            Right Bar Button
+          </md-button>
+        </div>
+    </md-toolbar>
+</div>
+<div class="container" layout="row" flex>
+    <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-4dp">
+        <md-list>
+            <md-list-item  ng-repeat="tache in taches_liste">
+                <md-button ng-click="montrerTache(tache)">{{tache.titre}}</md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button class="" aria-label="Eat cake">
+                    Hello
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
+    <md-content id="content" layout="row" layout-padding="" layout-sm="column">
+        <div flex="" ng-show="tache_to_show != false">
+            <h2>{{tache_to_show.titre}}</h2>
+            <div>{{tache_to_show.contenu}}</div>
+        </div>
+    </md-content>
+</div> -->
