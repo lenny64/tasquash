@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="row" ng-show="selected_user">
-        <div class="col-12">
+        <div class="col-12 my-3">
             <h3>Skills</h3>
             <div ng-repeat="skill in selected_user.skills_list">
                 {{skill.name}} <small>{{skill.text}}</small>
@@ -66,7 +66,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-12">
+        <div class="col-12 my-3">
             <h3>Tasks submitted</h3>
             <div ng-repeat="task in selected_user.tasks_list">
                 {{task.title}} - {{task.description}} ({{task.category}})
@@ -74,11 +74,25 @@
             <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
             <form class="form small" ng-submit="addUserTask()" ng-show="show_user_task_form">
                 <div class="row form-group my-2">
-                    <div class="col-4">
+                    <div class="col-3">
+                        <label>Title</label>
+                        <input type="text" class="form-control form-control-sm" ng-model="title" placeholder="Task title" required>
+                    </div>
+                    <div class="col-3">
+                        <label>Deadline</label>
+                        <input type="date" class="form-control form-control-sm" ng-model="deadline" required>
+                    </div>
+                    <div class="col-3">
+                        <label>Category</label>
                         <select class="form-control form-control-sm" ng-model="selected_skill" ng-options="skill as skill.name for skill in all_skills_list"></select>
                     </div>
-                    <div class="col-6">
-                        <input type="text" class="form-control form-control-sm" ng-model="text" placeholder="Description of my skill that will appear in my profile" required>
+                    <div class="col-3">
+                        <label>Distance (km)</label>
+                        <input type="number" class="form-control form-control-sm" ng-model="distance" placeholder="1">
+                    </div>
+                    <div class="col-12">
+                        <label>Description</label>
+                        <input type="text" class="form-control form-control-sm" ng-model="description" placeholder="Description" required>
                     </div>
                     <div class="col-2">
                         <input type="submit" class="btn btn-sm btn-success" value="Add"/>
@@ -86,7 +100,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-12">
+        <div class="col-12 my-3">
             <h3>Possible squashs</h3>
             <div ng-repeat="squash in selected_user.possible_squashs_list">
                 {{squash.title}} - {{squash.description}} ({{squash.category}})

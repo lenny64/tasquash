@@ -28,4 +28,9 @@ tasquash.service('apiService', ['$http', '$cookies', function($http, $cookies) {
         return $http.get(api.url + 'skills/getAllSkills.php');
     }
 
+    // TASKS
+    this.addUserTask = function(data) {
+        return $http.put(api.url + 'tasks/addUserTask.php', data);
+    }
+
 }]);

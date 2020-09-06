@@ -37,6 +37,8 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
         };
         $apiService.addUserSkill(data).then(function(reponse) {
             $scope.getUserSkills();
+            $scope.show_user_skill_form = false;
+            $scope.text = '';
         });
     }
 
@@ -51,6 +53,22 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.getPossibleSquashs = function() {
         $apiService.getPossibleSquashs($scope.selected_user.id).then(function(reponse) {
             $scope.selected_user.possible_squashs_list = reponse.data;
+        });
+    }
+    $scope.addUserTask = function() {
+        var data = {
+            taskmaster: $scope.selected_user.id,
+            description: $scope.description,
+            category_id: $scope.selected_skill.id,
+            title: $scope.title,
+            distance: $scope.distance,
+            deadline: $scope.deadline
+        };
+        $apiService.addUserTask(data).then(function(reponse) {
+            $scope.getUserTasks();
+            $scope.show_user_task_form = false;
+            $scope.description = '';
+            $scope.title = '';
         });
     }
 
