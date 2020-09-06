@@ -41,6 +41,15 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
             $scope.text = '';
         });
     }
+    $scope.removeUserSkill = function(skill) {
+        var data = {
+            category_id: skill.id,
+            user_id: $scope.selected_user.id
+        };
+        $apiService.removeUserSkill(data).then(function(reponse) {
+            $scope.getUserSkills();
+        });
+    }
 
     // *****************
     // TASKS ***********
@@ -48,11 +57,6 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.getUserTasks = function() {
         $apiService.getUserTasks($scope.selected_user.id).then(function(reponse) {
             $scope.selected_user.tasks_list = reponse.data;
-        });
-    }
-    $scope.getPossibleSquashs = function() {
-        $apiService.getPossibleSquashs($scope.selected_user.id).then(function(reponse) {
-            $scope.selected_user.possible_squashs_list = reponse.data;
         });
     }
     $scope.addUserTask = function() {
@@ -71,6 +75,30 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
             $scope.title = '';
         });
     }
+    $scope.removeUserTask = function(task) {
+        $apiService.removeUserTask(task.id).then(function(reponse) {
+            $scope.getUserTasks();
+        });
+    }
+
+    // *******************
+    // SQUASHS
+    // *******************
+    $scope.getPossibleSquashs = function() {
+        $apiService.getPossibleSquashs($scope.selected_user.id).then(function(reponse) {
+            $scope.selected_user.possible_squashs_list = reponse.data;
+        });
+    }
+    $scope.makeSquashApplication = function(squash) {
+        var data = {
+            quasher: $scope.selected_user.id,
+            task_id: squash.id
+        };
+        $apiService.makeSquashApplication(data).then(function(reponse) {
+            $scope.getPossibleSquashs();
+        });
+    }
+
 
     $scope.getAllUsers();
     $scope.getAllSkills();

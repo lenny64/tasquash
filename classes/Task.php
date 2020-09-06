@@ -41,6 +41,66 @@ class Task {
             return False;
         }
     }
+
+    public function removeUserTask() {
+        global $db;
+        if (!$this->id || $this->id == 0) {
+            $this->erreurs[] = "Pas d'id";
+            return False;
+        }
+        $query = "DELETE FROM tasks WHERE task_id = ?";
+        if ($query_remove_skill = $db->prepare($query)) {
+            $query_remove_skill->bind_param('i', $this->id);
+            if ($query_remove_skill->execute() === TRUE) {
+                //
+            }
+            else {
+                $this->erreurs[] = $db->error;
+                return False;
+            }
+        }
+        else {
+            $this->erreurs[] = $db->error;
+            return False;
+        }
+        return True;
+    }
+
+    public function makeSquashApplication() {
+        global $db;
+        if (!$this->id || $this->id == 0 || !$this->quasher || $this->quasher == 0) {
+            $this->erreurs[] = "Je n'ai pas d'id";
+        }
+        $query = "UPDATE tasks SET quasher = ?, status = 'quasher_pending' WHERE task_id = ?";
+        if ($query_accept_squash = $db->prepare($query)) {
+            $query_accept_squash->bind_param('ii', $this->quasher, $this->id);
+            if ($query_accept_squash->execute() === TRUE) {
+                $query_applicant = "INSERT INTO applicants_offers (task_id, user_id) VALUES(?, ?)";
+                if ($query_new_applicant = $db->prepare($query_applicant)) {
+                    $query_new_applicant->bind_param('ii', $this->id, $this->quasher);
+                    if ($query_new_applicant->execute() === TRUE) {
+                        //
+                    }
+                    else {
+                        $this->erreurs[] = $db->error;
+                        return False;
+                    }
+                }
+                else {
+                    $this->erreurs[] = $db->error;
+                    return False;
+                }
+            }
+            else {
+                $this->erreurs[] = $db->error;
+                return False;
+            }
+        }
+        else {
+            $this->erreurs[] = $db->error;
+            return False;
+        }
+    }
 }
 
 ?>

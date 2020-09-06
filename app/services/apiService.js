@@ -27,10 +27,24 @@ tasquash.service('apiService', ['$http', '$cookies', function($http, $cookies) {
     this.getAllSkills = function() {
         return $http.get(api.url + 'skills/getAllSkills.php');
     }
+    this.removeUserSkill = function(data) {
+        return $http.post(api.url + 'skills/removeUserSkill.php', data);
+    }
 
     // TASKS
     this.addUserTask = function(data) {
         return $http.put(api.url + 'tasks/addUserTask.php', data);
+    }
+    this.removeUserTask = function(task_id) {
+        return $http.get(api.url + 'tasks/removeUserTask.php?id=' + task_id);
+    }
+
+    // SQUASHS
+    this.getPossibleSquashs = function(user_id) {
+        return $http.get(api.url + 'users/getPossibleSquashs.php?user_id=' + user_id);
+    }
+    this.makeSquashApplication = function(data) {
+        return $http.put(api.url + 'tasks/makeSquashApplication.php', data);
     }
 
 }]);

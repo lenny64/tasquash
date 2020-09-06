@@ -56,12 +56,12 @@ class User {
             return False;
         }
         $results = Array();
-        $query = "SELECT task.task_id, task.title, task.description, cat.name FROM tasks task JOIN users user ON (task.taskmaster = user.user_id) JOIN categories cat USING(category_id) WHERE user.user_id = $this->id";
+        $query = "SELECT task.task_id, task.title, task.description, cat.name, task.status FROM tasks task JOIN users user ON (task.taskmaster = user.user_id) JOIN categories cat USING(category_id) WHERE user.user_id = $this->id";
         if ($query_skills = $db->prepare($query)) {
-            $query_skills->bind_result($task_id, $task_title, $task_description, $category_name);
+            $query_skills->bind_result($task_id, $task_title, $task_description, $category_name, $status);
             $query_skills->execute();
             while ($query_skills->fetch()) {
-                $results[] = Array('id' => $task_id, 'title' => $task_title, 'description' => $task_description, 'category' => $category_name);
+                $results[] = Array('id' => $task_id, 'title' => $task_title, 'description' => $task_description, 'category' => $category_name, 'status' => $status);
             }
         }
         else {
@@ -76,12 +76,15 @@ class User {
             return False;
         }
         $results = Array();
-        $query = "SELECT task.task_id, task.title, cat.name, task.description, user.firstname FROM tasks task JOIN categories cat USING(category_id) JOIN user_skills skill USING(category_id) JOIN users user USING(user_id) WHERE user_id = $this->id";
+        $query = "SELECT task.task_id, task.title, cat.name, task.description, (SELECT users.firstname FROM users WHERE user_id = task.taskmaster), task.status FROM tasks task
+                    JOIN categories cat USING(category_id)
+                    JOIN user_skills skill USING(category_id)
+                    JOIN users user USING(user_id) WHERE user_id = $this->id AND task.taskmaster != $this->id";
         if ($query_skills = $db->prepare($query)) {
-            $query_skills->bind_result($task_id, $task_title, $category_name, $task_description, $taskmaster);
+            $query_skills->bind_result($task_id, $task_title, $category_name, $task_description, $taskmaster, $status);
             $query_skills->execute();
             while ($query_skills->fetch()) {
-                $results[] = Array('id' => $task_id, 'title' => $task_title, 'category' => $category_name, 'description' => $task_description, 'taskmaster' => $taskmaster);
+                $results[] = Array('id' => $task_id, 'title' => $task_title, 'category' => $category_name, 'description' => $task_description, 'taskmaster' => $taskmaster, 'status' => $status);
             }
         }
         else {

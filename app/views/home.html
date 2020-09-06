@@ -47,11 +47,12 @@
     </div>
     <div class="row" ng-show="selected_user">
         <div class="col-12 my-3">
-            <h3>Skills</h3>
+            <h3 class="text-info">Skills</h3>
             <div ng-repeat="skill in selected_user.skills_list">
                 {{skill.name}} <small>{{skill.text}}</small>
+                <button type="button" class="btn btn-sm btn-info" ng-click="removeUserSkill(skill)"><span class="oi oi-trash"></span></button>
             </div>
-            <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_skill_form = !show_user_skill_form"><span class="oi oi-plus"></span> skill</button>
+            <button type="button" class="btn btn-sm btn-info" ng-click="show_user_skill_form = !show_user_skill_form"><span class="oi oi-plus"></span> skill</button>
             <form class="form small" ng-submit="addUserSkill()" ng-show="show_user_skill_form">
                 <div class="row form-group my-2">
                     <div class="col-4">
@@ -67,9 +68,12 @@
             </form>
         </div>
         <div class="col-12 my-3">
-            <h3>Tasks submitted</h3>
+            <h3 class="text-primary">Tasks submitted</h3>
             <div ng-repeat="task in selected_user.tasks_list">
-                {{task.title}} - {{task.description}} ({{task.category}})
+                <b>{{task.title}}</b> {{task.description}}
+                <span class="text-info"><span class="oi oi-tags"></span> {{task.category}}</span>
+                <span class="badge badge-primary">{{task.status}}</span>
+                <button type="button" class="btn btn-sm btn-primary" ng-click="removeUserTask(task)"><span class="oi oi-trash"></span></button>
             </div>
             <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
             <form class="form small" ng-submit="addUserTask()" ng-show="show_user_task_form">
@@ -101,9 +105,14 @@
             </form>
         </div>
         <div class="col-12 my-3">
-            <h3>Possible squashs</h3>
-            <div ng-repeat="squash in selected_user.possible_squashs_list">
-                {{squash.title}} - {{squash.description}} ({{squash.category}})
+            <h3 class="text-success">Possible squashs</h3>
+            <div ng-repeat="squash in selected_user.possible_squashs_list" class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{squash.title}} <small class="text-info"><span class="oi oi-tags"></span> {{squash.category}}</small></h4>
+                    <p><span class="oi oi-people"></span> {{squash.taskmaster}} <span class="badge badge-primary">{{squash.status}}</span></p>
+                    <p>{{squash.description}}</p>
+                    <button type="button" class="btn btn-sm btn-success" ng-click="makeSquashApplication(squash)" ng-hide="squash.status == 'quasher_pending'"><span class="oi oi-thumb-up"></span> I can do it!</button>
+                </div>
             </div>
         </div>
     </div>

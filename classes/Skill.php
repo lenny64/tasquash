@@ -23,6 +23,29 @@ class Skill {
         }
         return $results;
     }
+
+    public function removeUserSkill() {
+        global $db;
+        if (!$this->user_id || $this->user_id == 0 || !$this->category_id || $this->category_id == 0) {
+            $this->erreurs[] = "Je n'ai pas d'user ou category";
+            return False;
+        }
+        $query = "DELETE FROM user_skills WHERE user_id = ? AND category_id = ?";
+        if ($query_remove_skill = $db->prepare($query)) {
+            $query_remove_skill->bind_param('ii', $this->user_id, $this->category_id);
+            if ($query_remove_skill->execute() === TRUE) {
+                //
+            }
+            else {
+                $this->erreurs[] = $db->error;
+                return False;
+            }
+        }
+        else {
+            $this->erreurs[] = $db->error;
+        }
+        return True;
+    }
 }
 
 ?>
