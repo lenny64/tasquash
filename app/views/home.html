@@ -1,56 +1,59 @@
-<div class="container-fluid bg-dark" ng-hide="logged_in == true">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-7 my-4 text-white">
-                <div class="jumbotron jumbotron-fluid" style="background-color: transparent;">
-                    <h1 class="display-4">Welcome to TasQuash</h1>
-                    <p class="lead">Hire for the best. Find your ressources for any job you'd like to be done. We do the rest</p>
-                    <hr class="my-4">
-                    <p class="lead">
-                        <a class="btn btn-outline-primary btn-lg btn-rounded" href="#" role="button">Sign in now</a>
-                    </p>
-                </div>
-            </div>
-            <div class="col-12 col-md-5 my-4">
-                <div class="card" ng-controller="loginController">
-                    <div class="card-body">
-                        <div class="form-group mt-3">
-                            <label for="user_login">Username</label>
-                            <input type="text" id="user_login" ng-model="user_login" class="form-control form-control-lg" placeholder="Login"/>
-                        </div>
-                        <div class="form-group my-3">
-                            <label for="user_password">Password</label>
-                            <input type="password" id="user_password" ng-model="user_password" class="form-control form-control-lg" placeholder="Login"/>
-                        </div>
-                        <div class="my-4">
-                            <button type="button" class="btn btn-lg btn-rounded-lg btn-success btn-block p-3" ng-click="login()">Sign up for TasQuash</button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        Not registered? <button type="button" class="btn btn-outline-primary btn-rounded">Sign in</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="container" ng-show="logged_in == true">
-    <div class="row">
-        <div class="col-12">
-            <h3>Users</h3>
+<div class="container">
+    <div class="row my-2">
+        <div class="col-10">
             <select class="form-control" ng-model="selected_user" ng-options="user as user.firstname for user in users_list" ng-change="selectUser()">
-                <option value="">User</option>
+                <option value="">-- See the interface as user --</option>
             </select>
         </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-outline-success btn-block" ng-click="show_new_user_form = true"><span class="oi oi-plus"></span> user</button>
+        </div>
     </div>
+    <form class="form" ng-show="show_new_user_form" ng-submit="addUser()">
+        <div class="form-group row">
+            <div class="col-2">
+                <input type="text" ng-model="new_user_pseudo" class="form-control form-control-sm" placeholder="Pseudo *" required>
+            </div>
+            <div class="col-2">
+                <input type="text" ng-model="new_user_firstname" class="form-control form-control-sm" placeholder="First name">
+            </div>
+            <div class="col-2">
+                <input type="text" ng-model="new_user_lastname" class="form-control form-control-sm" placeholder="Last name">
+            </div>
+            <div class="col-3">
+                <input type="text" ng-model="new_user_email" class="form-control form-control-sm" placeholder="Email *" required>
+            </div>
+            <div class="col-2">
+                <input type="text" ng-model="new_user_password" class="form-control form-control-sm" placeholder="Password *" required>
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-sm btn-success"><span class="oi oi-check"></span></button>
+            </div>
+        </div>
+    </form>
     <div class="row" ng-show="selected_user">
-        <div class="col-12 my-3">
-            <h3 class="text-info">Skills</h3>
+        <div class="col-12 mb-2">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" ng-click="view = 'tasks'"><span class="oi oi-data-transfer-download"></span> Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" ng-click="view = 'squashs'"><span class="oi oi-data-transfer-upload"></span> Squashs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" ng-click="view = 'skills'"><span class="oi oi-cog"></span> Skills</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="col-12" ng-show="view == 'skills'">
+            <h5 class="text-info">Skills</h5>
             <div ng-repeat="skill in selected_user.skills_list">
-                {{skill.name}} <small>{{skill.text}}</small>
-                <button type="button" class="btn btn-sm btn-info" ng-click="removeUserSkill(skill)"><span class="oi oi-trash"></span></button>
+                <h5>
+                    <button type="button" class="btn btn-sm btn-info" ng-click="removeUserSkill(skill)"><span class="oi oi-trash"></span></button> {{skill.name}}
+                </h5>
+                <p>{{skill.text}}</p>
             </div>
             <button type="button" class="btn btn-sm btn-info" ng-click="show_user_skill_form = !show_user_skill_form"><span class="oi oi-plus"></span> skill</button>
             <form class="form small" ng-submit="addUserSkill()" ng-show="show_user_skill_form">
@@ -64,18 +67,87 @@
                     <div class="col-2">
                         <input type="submit" class="btn btn-sm btn-success" value="Add"/>
                     </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm" ng-click="show_new_skill_form = true">Create a new one</button>
+                    </div>
+                </div>
+            </form>
+            <form class="form small" ng-submit="addSkill()" ng-show="show_new_skill_form">
+                <div class="row form-group my-2">
+                    <div class="col-4">
+                        <input type="text" class="form-control form-control-sm" ng-model="skill_name" placeholder="Name" required>
+                    </div>
+                    <div class="col-8">
+                        <input type="submit" class="btn btn-sm btn-success" value="Create"/>
+                    </div>
                 </div>
             </form>
         </div>
-        <div class="col-12 my-3">
-            <h3 class="text-primary">Tasks submitted</h3>
-            <div ng-repeat="task in selected_user.tasks_list">
-                <b>{{task.title}}</b> {{task.description}}
-                <span class="text-info"><span class="oi oi-tags"></span> {{task.category}}</span>
-                <span class="badge badge-primary">{{task.status}}</span>
-                <button type="button" class="btn btn-sm btn-primary" ng-click="removeUserTask(task)"><span class="oi oi-trash"></span></button>
+
+
+        <div class="col-12" ng-show="view == 'tasks'">
+            <h5 class="text-primary">
+                Tasks submitted
+                <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
+            </h5>
+            <div ng-repeat="task in selected_user.tasks_list" class="card my-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4">
+                            Task {{task.id}}
+                        </div>
+                        <div class="col-4" ng-hide="task.status == 'quasher_accepted'">
+                            {{task.offers.length}} candidates
+                        </div>
+                        <div class="col-4" ng-show="task.status == 'quasher_accepted'">
+                            Candidate hired
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="h5">{{task.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <p>
+                                <span class="oi" ng-class="task.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+                                <span class="badge">{{task.status}}</span>
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-clock"></span> {{task.datetime_creation}}
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-dollar"></span> {{task.reward}}
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-compass"></span> Range
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" ng-show="task.status == 'quasher_accepted'">
+                    <div class="row">
+                        <div class="col-1">
+                            <img ng-src="{{task.quasher.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            <p class="h5">{{task.quasher.firstname}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" ng-show="task.status == 'quasher_pending'">
+                    <div class="row my-2" ng-repeat="offer in task.offers">
+                        <div class="col-1">
+                            <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            <p class="h5">{{offer.firstname}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
+
             <form class="form small" ng-submit="addUserTask()" ng-show="show_user_task_form">
                 <div class="row form-group my-2">
                     <div class="col-3">
@@ -104,49 +176,58 @@
                 </div>
             </form>
         </div>
-        <div class="col-12 my-3">
-            <h3 class="text-success">Possible squashs</h3>
-            <div ng-repeat="squash in selected_user.possible_squashs_list" class="card">
-                <div class="card-body">
-                    <h4 class="card-title">{{squash.title}} <small class="text-info"><span class="oi oi-tags"></span> {{squash.category}}</small></h4>
-                    <p><span class="oi oi-people"></span> {{squash.taskmaster}} <span class="badge badge-primary">{{squash.status}}</span></p>
-                    <p>{{squash.description}}</p>
-                    <button type="button" class="btn btn-sm btn-success" ng-click="makeSquashApplication(squash)" ng-hide="squash.status == 'quasher_pending'"><span class="oi oi-thumb-up"></span> I can do it!</button>
+
+
+        <div class="col-12" ng-show="view == 'squashs'">
+            <h5 class="text-success">Possible squashs <small>based on your skills</small></h5>
+            <div ng-repeat="squash in selected_user.possible_squashs_list" class="card my-2">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="h5">{{squash.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <p>
+                                <span class="oi" ng-class="squash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+                                <span class="badge">{{squash.status}}</span>
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-clock"></span> {{squash.datetime_creation}}
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-dollar"></span> {{squash.reward}}
+                        </div>
+                        <div class="col-3" ng-show="squash.status == 'quasher_accepted'">
+                            <span class="oi oi-thumb-up"></span> Hired
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" ng-show="squash.status == 'quasher_accepted'">
+                    <div class="row">
+                        <div class="col-1">
+                            <img ng-src="{{squash.taskmaster.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            <p class="h5">{{squash.taskmaster.firstname}}</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success" ng-click="makeSquashApplication(squash)" ng-show="squash.already_applied != true && (squash.status == 'created' || squash.status == 'quasher_pending')"><span class="oi oi-thumb-up"></span> I can do it!</button>
+                </div>
+                <div class="card-body" ng-show="squash.status == 'quasher_pending'">
+                    <div class="row my-2" ng-repeat="offer in squash.offers">
+                        <div class="col-1">
+                            {{offer}}
+                            <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            <p class="h5">{{offer.firstname}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- <div class="column" layout-fill="">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-          <h2 md-truncate="" flex="">TasQuash</h2>
-
-          <md-button>
-            Right Bar Button
-          </md-button>
-        </div>
-    </md-toolbar>
-</div>
-<div class="container" layout="row" flex>
-    <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-4dp">
-        <md-list>
-            <md-list-item  ng-repeat="tache in taches_liste">
-                <md-button ng-click="montrerTache(tache)">{{tache.titre}}</md-button>
-            </md-list-item>
-            <md-list-item>
-                <md-button class="" aria-label="Eat cake">
-                    Hello
-                </md-button>
-            </md-list-item>
-        </md-list>
-    </md-sidenav>
-    <md-content id="content" layout="row" layout-padding="" layout-sm="column">
-        <div flex="" ng-show="tache_to_show != false">
-            <h2>{{tache_to_show.titre}}</h2>
-            <div>{{tache_to_show.contenu}}</div>
-        </div>
-    </md-content>
-</div> -->

@@ -7,10 +7,10 @@ tasquash.config(function($routeProvider) {
             templateUrl: 'views/home.html',
             controller: 'homeController'
         })
-        .when('/login', {
-            templateUrl: 'views/login.html',
-            controller: 'loginController'
-        })
+        // .when('/login', {
+        //     templateUrl: 'views/login.html',
+        //     controller: 'loginController'
+        // })
         .otherwise({
             templateUrl: 'views/home.html',
             controller: 'homeController'

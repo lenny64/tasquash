@@ -24,6 +24,29 @@ class Skill {
         return $results;
     }
 
+    public function addSkill() {
+        global $db;
+        if (!$this->name) {
+            $this->erreurs[] = "Je n'ai pas de nom";
+            return False;
+        }
+        $query = "INSERT INTO categories (name) VALUES (?)";
+        if ($query_remove_skill = $db->prepare($query)) {
+            $query_remove_skill->bind_param('s', $this->name);
+            if ($query_remove_skill->execute() === TRUE) {
+                $this->id = $db->insert_id;
+            }
+            else {
+                $this->erreurs[] = $db->error;
+                return False;
+            }
+        }
+        else {
+            $this->erreurs[] = $db->error;
+        }
+        return True;
+    }
+
     public function removeUserSkill() {
         global $db;
         if (!$this->user_id || $this->user_id == 0 || !$this->category_id || $this->category_id == 0) {

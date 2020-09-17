@@ -15,6 +15,19 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
         $scope.getUserTasks();
         $scope.getPossibleSquashs();
     }
+    $scope.addUser = function() {
+        var data = {
+            pseudo: $scope.new_user_pseudo,
+            email: $scope.new_user_email,
+            firstname: $scope.new_user_firstname,
+            lastname: $scope.new_user_lastname,
+            password: $scope.new_user_password
+        };
+        $apiService.addUser(data).then(function(reponse) {
+            $scope.users_list.push(reponse.data);
+            $scope.selected_user = reponse.data;
+        });
+    }
 
     // ****************
     // SKILLS *********
@@ -27,6 +40,16 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.getUserSkills = function() {
         $apiService.getUserSkills($scope.selected_user.id).then(function(reponse) {
             $scope.selected_user.skills_list = reponse.data;
+        });
+    }
+    $scope.addSkill = function() {
+        var data = {
+            skill_name: $scope.skill_name
+        };
+        $apiService.addSkill(data).then(function(reponse) {
+            $scope.show_new_skill_form = false;
+            $scope.all_skills_list.push(reponse.data);
+            $scope.selected_skill = reponse.data;
         });
     }
     $scope.addUserSkill = function() {
@@ -87,6 +110,15 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.getPossibleSquashs = function() {
         $apiService.getPossibleSquashs($scope.selected_user.id).then(function(reponse) {
             $scope.selected_user.possible_squashs_list = reponse.data;
+            $.each($scope.selected_user.possible_squashs_list, function(i, task) {
+                if (task.offers) {
+                    $.each(task.offers, function(j, offer) {
+                        if (offer.user_id && offer.user_id == $scope.selected_user.id) {
+                            $scope.selected_user.possible_squashs_list[i]['already_applied'] = true;
+                        }
+                    });
+                }
+            });
         });
     }
     $scope.makeSquashApplication = function(squash) {
@@ -98,8 +130,13 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
             $scope.getPossibleSquashs();
         });
     }
+    $scope.acceptOffer = function(offer) {
+        $apiService.acceptOffer(offer).then(function(reponse) {
 
+        });
+    }
 
+    $scope.view = 'tasks';
     $scope.getAllUsers();
     $scope.getAllSkills();
 }]);
