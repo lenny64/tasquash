@@ -97,7 +97,7 @@ class User {
         return $results;
     }
 
-    public function getPossibleSquashs() {
+    public function getPossibleQuashs() {
         global $db;
         if (!$this->id || $this->id == 0) {
             return False;

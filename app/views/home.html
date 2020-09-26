@@ -38,7 +38,7 @@
                     <a href="#" class="nav-link" ng-click="view = 'tasks'"><span class="oi oi-data-transfer-download"></span> Tasks</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" ng-click="view = 'squashs'"><span class="oi oi-data-transfer-upload"></span> Squashs</a>
+                    <a href="#" class="nav-link" ng-click="view = 'quashs'"><span class="oi oi-data-transfer-upload"></span> Quashs</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" ng-click="view = 'skills'"><span class="oi oi-cog"></span> Skills</a>
@@ -110,10 +110,8 @@
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <p>
-                                <span class="oi" ng-class="task.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
-                                <span class="badge">{{task.status}}</span>
-                            </p>
+                            <span class="oi" ng-class="task.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+                            <span class="badge">{{task.status}}</span>
                         </div>
                         <div class="col-3">
                             <span class="oi oi-clock"></span> {{task.datetime_creation}}
@@ -132,7 +130,7 @@
                             <img ng-src="{{task.quasher.photo}}" class="img-fluid rounded" alt="">
                         </div>
                         <div class="col-11">
-                            <p class="h5">{{task.quasher.firstname}}</p>
+                            <p class="h5">Task is for {{task.quasher.firstname}}</p>
                         </div>
                     </div>
                 </div>
@@ -142,7 +140,7 @@
                             <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
                         </div>
                         <div class="col-11">
-                            <p class="h5">{{offer.firstname}}</p>
+                            <p class="h5">{{offer.firstname}} <button type="button" class="btn btn-sm btn-success" ng-click="acceptOffer(offer)"><span class="oi oi-thumb-up"></span> Hire</button></p>
                         </div>
                     </div>
                 </div>
@@ -178,48 +176,96 @@
         </div>
 
 
-        <div class="col-12" ng-show="view == 'squashs'">
-            <h5 class="text-success">Possible squashs <small>based on your skills</small></h5>
-            <div ng-repeat="squash in selected_user.possible_squashs_list" class="card my-2">
+        <div class="col-12" ng-show="view == 'quashs'">
+            <h5 class="text-success">Possible quashs <small>based on your skills</small></h5>
+            <div class="row" ng-show="selected_user.interesting_quashs_list.length > 0">
+                <div class="col-12">
+                    <div class="alert alert-success">
+                        There are {{selected_user.interesting_quashs_list.length}} new quashs that could interest you.
+                        <button type="button" class="btn btn-outline-success" ng-click="show_new_interesting_quashs = !show_new_interesting_quashs"><span class="oi oi-eye"></span> See</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-success mb-2" ng-repeat="interesting_quash in selected_user.interesting_quashs_list" ng-show="show_new_interesting_quashs">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12">
-                            <p class="h5">{{squash.description}}</p>
+                            <p class="h5">{{interesting_quash.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <img ng-src="{{interesting_quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            created by <span class="badge">{{interesting_quash.taskmaster.pseudo}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <p>
-                                <span class="oi" ng-class="squash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
-                                <span class="badge">{{squash.status}}</span>
-                            </p>
+                            <span class="oi" ng-class="interesting_quash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+                            <span class="badge">{{interesting_quash.status}}</span>
                         </div>
                         <div class="col-3">
-                            <span class="oi oi-clock"></span> {{squash.datetime_creation}}
+                            <span class="oi oi-clock"></span> {{interesting_quash.datetime_creation}}
                         </div>
                         <div class="col-3">
-                            <span class="oi oi-dollar"></span> {{squash.reward}}
+                            <span class="oi oi-dollar"></span> {{interesting_quash.reward}}
                         </div>
-                        <div class="col-3" ng-show="squash.status == 'quasher_accepted'">
+                        <div class="col-3" ng-show="interesting_quash.status == 'quasher_accepted'">
                             <span class="oi oi-thumb-up"></span> Hired
                         </div>
                     </div>
                 </div>
-                <div class="card-body" ng-show="squash.status == 'quasher_accepted'">
-                    <div class="row">
-                        <div class="col-1">
-                            <img ng-src="{{squash.taskmaster.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            <p class="h5">{{squash.taskmaster.firstname}}</p>
+                <div class="card-body" ng-show="interesting_quash.status == 'created'">
+                    <div class="row my-2">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-success" ng-click="makeQuashApplication(quash)"><span class="oi oi-check"></span> Accept to do this task</button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-sm btn-success" ng-click="makeSquashApplication(squash)" ng-show="squash.already_applied != true && (squash.status == 'created' || squash.status == 'quasher_pending')"><span class="oi oi-thumb-up"></span> I can do it!</button>
                 </div>
-                <div class="card-body" ng-show="squash.status == 'quasher_pending'">
-                    <div class="row my-2" ng-repeat="offer in squash.offers">
+            </div>
+            <div ng-repeat="quash in selected_user.possible_quashs_list" class="card my-2" ng-show="quash.status != 'created'">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="h5">{{quash.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="oi oi-person"></span> created by <span class="badge">{{quash.taskmaster.pseudo}}</span>
+                        </div>
+                        <div class="col-3">
+                            <span class="oi" ng-class="quash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+                            <span class="badge">{{quash.status}}</span>
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-clock"></span> {{quash.datetime_creation}}
+                        </div>
+                        <div class="col-3">
+                            <span class="oi oi-dollar"></span> {{quash.reward}}
+                        </div>
+                        <div class="col-3" ng-show="quash.status == 'quasher_accepted'">
+                            <span class="oi oi-thumb-up"></span> Hired
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" ng-show="quash.status == 'quasher_accepted'">
+                    <div class="row">
                         <div class="col-1">
-                            {{offer}}
+                            <img ng-src="{{quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-11">
+                            <p class="h5">Conversation with {{quash.taskmaster.firstname}}</p>
+                            <p class="">my conversation with {{quash.taskmaster.firstname}} will soon appear when the chat will be developped</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success" ng-click="makeQuashApplication(quash)" ng-show="quash.already_applied != true && (quash.status == 'created' || quash.status == 'quasher_pending')"><span class="oi oi-thumb-up"></span> I can do it!</button>
+                </div>
+                <div class="card-body" ng-show="quash.status == 'quasher_pending'">
+                    <div class="row my-2" ng-repeat="offer in quash.offers">
+                        <div class="col-1">
                             <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
                         </div>
                         <div class="col-11">

@@ -19,8 +19,8 @@ tasquash.service('apiService', ['$http', '$cookies', function($http, $cookies) {
     this.addUserSkill = function(data) {
         return $http.put(api.url + 'users/addUserSkill.php', data);
     }
-    this.getPossibleSquashs = function(user_id) {
-        return $http.get(api.url + 'users/getPossibleSquashs.php?user_id=' + user_id);
+    this.getPossibleQuashs = function(user_id) {
+        return $http.get(api.url + 'users/getPossibleQuashs.php?user_id=' + user_id);
     }
     this.addUser = function(data) {
         return $http.put(api.url + 'users/addUser.php', data);
@@ -48,12 +48,12 @@ tasquash.service('apiService', ['$http', '$cookies', function($http, $cookies) {
         return $http.post(api.url + 'tasks/acceptOffer.php', offer);
     }
 
-    // SQUASHS
-    this.getPossibleSquashs = function(user_id) {
-        return $http.get(api.url + 'users/getPossibleSquashs.php?user_id=' + user_id);
+    // QUASHS
+    this.getPossibleQuashs = function(user_id) {
+        return $http.get(api.url + 'users/getPossibleQuashs.php?user_id=' + user_id);
     }
-    this.makeSquashApplication = function(data) {
-        return $http.put(api.url + 'tasks/makeSquashApplication.php', data);
+    this.makeQuashApplication = function(data) {
+        return $http.put(api.url + 'tasks/makeQuashApplication.php', data);
     }
 
 }]);

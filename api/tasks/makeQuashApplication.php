@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT") {
     $Task = new Task();
     $Task->quasher = $post['quasher'];
     $Task->id = $post['task_id'];
-    $Task->makeSquashApplication();
+    $Task->makeQuashApplication();
 
     echo json_encode($Task);
 }

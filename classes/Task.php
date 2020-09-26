@@ -94,15 +94,15 @@ class Task {
         return True;
     }
 
-    public function makeSquashApplication() {
+    public function makeQuashApplication() {
         global $db;
         if (!$this->id || $this->id == 0 || !$this->quasher || $this->quasher == 0) {
             $this->erreurs[] = "Je n'ai pas d'id";
         }
         $query = "UPDATE tasks SET status = 'quasher_pending' WHERE task_id = ?";
-        if ($query_accept_squash = $db->prepare($query)) {
-            $query_accept_squash->bind_param('i', $this->id);
-            if ($query_accept_squash->execute() === TRUE) {
+        if ($query_accept_quash = $db->prepare($query)) {
+            $query_accept_quash->bind_param('i', $this->id);
+            if ($query_accept_quash->execute() === TRUE) {
                 $query_applicant = "INSERT INTO applicants_offers (task_id, user_id) VALUES(?, ?)";
                 if ($query_new_applicant = $db->prepare($query_applicant)) {
                     $query_new_applicant->bind_param('ii', $this->id, $this->quasher);

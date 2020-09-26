@@ -13,7 +13,7 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.selectUser = function() {
         $scope.getUserSkills();
         $scope.getUserTasks();
-        $scope.getPossibleSquashs();
+        $scope.getPossibleQuashs();
     }
     $scope.addUser = function() {
         var data = {
@@ -105,34 +105,38 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     }
 
     // *******************
-    // SQUASHS
+    // QUASHS
     // *******************
-    $scope.getPossibleSquashs = function() {
-        $apiService.getPossibleSquashs($scope.selected_user.id).then(function(reponse) {
-            $scope.selected_user.possible_squashs_list = reponse.data;
-            $.each($scope.selected_user.possible_squashs_list, function(i, task) {
+    $scope.getPossibleQuashs = function() {
+        $apiService.getPossibleQuashs($scope.selected_user.id).then(function(reponse) {
+            $scope.selected_user.possible_quashs_list = reponse.data;
+            $scope.selected_user.interesting_quashs_list = [];
+            $.each($scope.selected_user.possible_quashs_list, function(i, task) {
+                if (task.status == 'created') {
+                    $scope.selected_user.interesting_quashs_list.push(task);
+                }
                 if (task.offers) {
                     $.each(task.offers, function(j, offer) {
                         if (offer.user_id && offer.user_id == $scope.selected_user.id) {
-                            $scope.selected_user.possible_squashs_list[i]['already_applied'] = true;
+                            $scope.selected_user.possible_quashs_list[i]['already_applied'] = true;
                         }
                     });
                 }
             });
         });
     }
-    $scope.makeSquashApplication = function(squash) {
+    $scope.makeQuashApplication = function(quash) {
         var data = {
             quasher: $scope.selected_user.id,
-            task_id: squash.id
+            task_id: quash.id
         };
-        $apiService.makeSquashApplication(data).then(function(reponse) {
-            $scope.getPossibleSquashs();
+        $apiService.makeQuashApplication(data).then(function(reponse) {
+            $scope.getPossibleQuashs();
         });
     }
     $scope.acceptOffer = function(offer) {
         $apiService.acceptOffer(offer).then(function(reponse) {
-
+            $scope.getUserTasks();
         });
     }
 
