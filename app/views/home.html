@@ -1,4 +1,6 @@
+<!-- MAIN CONTAINER -->
 <div class="container">
+    <!-- Select user -->
     <div class="row my-2">
         <div class="col-10">
             <select class="form-control" ng-model="selected_user" ng-options="user as user.firstname for user in users_list" ng-change="selectUser()">
@@ -8,7 +10,8 @@
         <div class="col-2">
             <button type="button" class="btn btn-outline-success btn-block" ng-click="show_new_user_form = true"><span class="oi oi-plus"></span> user</button>
         </div>
-    </div>
+    </div> <!-- / select user -->
+    <!-- New user form -->
     <form class="form" ng-show="show_new_user_form" ng-submit="addUser()">
         <div class="form-group row">
             <div class="col-2">
@@ -30,7 +33,9 @@
                 <button type="submit" class="btn btn-sm btn-success"><span class="oi oi-check"></span></button>
             </div>
         </div>
-    </form>
+    </form> <!-- / new user form -->
+
+    <!-- USER SELECTED ROW -->
     <div class="row" ng-show="selected_user">
         <div class="col-12 mb-2">
             <ul class="nav nav-tabs">
@@ -46,16 +51,18 @@
             </ul>
         </div>
 
-
+        <!-- SKILLS -->
         <div class="col-12" ng-show="view == 'skills'">
             <h5 class="text-info">Skills</h5>
+            <!-- User skills list -->
             <div ng-repeat="skill in selected_user.skills_list">
                 <h5>
                     <button type="button" class="btn btn-sm btn-info" ng-click="removeUserSkill(skill)"><span class="oi oi-trash"></span></button> {{skill.name}}
                 </h5>
                 <p>{{skill.text}}</p>
-            </div>
+            </div> <!-- / user skills list -->
             <button type="button" class="btn btn-sm btn-info" ng-click="show_user_skill_form = !show_user_skill_form"><span class="oi oi-plus"></span> skill</button>
+            <!-- Add skill to user -->
             <form class="form small" ng-submit="addUserSkill()" ng-show="show_user_skill_form">
                 <div class="row form-group my-2">
                     <div class="col-4">
@@ -71,7 +78,8 @@
                         <button type="button" class="btn btn-sm" ng-click="show_new_skill_form = true">Create a new one</button>
                     </div>
                 </div>
-            </form>
+            </form> <!-- / add skill to user -->
+            <!-- Create new skill -->
             <form class="form small" ng-submit="addSkill()" ng-show="show_new_skill_form">
                 <div class="row form-group my-2">
                     <div class="col-4">
@@ -81,71 +89,17 @@
                         <input type="submit" class="btn btn-sm btn-success" value="Create"/>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form> <!-- / create new skill -->
+        </div> <!-- / SKILLS -->
 
-
+        <!-- TASKS -->
         <div class="col-12" ng-show="view == 'tasks'">
             <h5 class="text-primary">
                 Tasks submitted
                 <button type="button" class="btn btn-sm btn-primary" ng-click="show_user_task_form = !show_user_task_form"><span class="oi oi-plus"></span> task</button>
             </h5>
-            <div ng-repeat="task in selected_user.tasks_list" class="card my-2">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-4">
-                            Task {{task.id}}
-                        </div>
-                        <div class="col-4" ng-hide="task.status == 'quasher_accepted'">
-                            {{task.offers.length}} candidates
-                        </div>
-                        <div class="col-4" ng-show="task.status == 'quasher_accepted'">
-                            Candidate hired
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="h5">{{task.description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <span class="oi" ng-class="task.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
-                            <span class="badge">{{task.status}}</span>
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-clock"></span> {{task.datetime_creation}}
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-dollar"></span> {{task.reward}}
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-compass"></span> Range
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" ng-show="task.status == 'quasher_accepted'">
-                    <div class="row">
-                        <div class="col-1">
-                            <img ng-src="{{task.quasher.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            <p class="h5">Task is for {{task.quasher.firstname}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" ng-show="task.status == 'quasher_pending'">
-                    <div class="row my-2" ng-repeat="offer in task.offers">
-                        <div class="col-1">
-                            <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            <p class="h5">{{offer.firstname}} <button type="button" class="btn btn-sm btn-success" ng-click="acceptOffer(offer)"><span class="oi oi-thumb-up"></span> Hire</button></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
+            <!-- New task form -->
             <form class="form small" ng-submit="addUserTask()" ng-show="show_user_task_form">
                 <div class="row form-group my-2">
                     <div class="col-3">
@@ -172,10 +126,14 @@
                         <input type="submit" class="btn btn-sm btn-success" value="Add"/>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form> <!-- / form create new task -->
 
+            <!-- Tasks list -->
+            <div ng-repeat="task in selected_user.tasks_list" class="card my-2" task="task"></div> <!-- / list of tasks -->
 
+        </div> <!-- / TASKS -->
+
+        <!-- QUASHS -->
         <div class="col-12" ng-show="view == 'quashs'">
             <h5 class="text-success">Possible quashs <small>based on your skills</small></h5>
             <div class="row" ng-show="selected_user.interesting_quashs_list.length > 0">
@@ -186,94 +144,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card border-success mb-2" ng-repeat="interesting_quash in selected_user.interesting_quashs_list" ng-show="show_new_interesting_quashs">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="h5">{{interesting_quash.description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-1">
-                            <img ng-src="{{interesting_quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            created by <span class="badge">{{interesting_quash.taskmaster.pseudo}}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <span class="oi" ng-class="interesting_quash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
-                            <span class="badge">{{interesting_quash.status}}</span>
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-clock"></span> {{interesting_quash.datetime_creation}}
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-dollar"></span> {{interesting_quash.reward}}
-                        </div>
-                        <div class="col-3" ng-show="interesting_quash.status == 'quasher_accepted'">
-                            <span class="oi oi-thumb-up"></span> Hired
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" ng-show="interesting_quash.status == 'created'">
-                    <div class="row my-2">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-outline-success" ng-click="makeQuashApplication(quash)"><span class="oi oi-check"></span> Accept to do this task</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div ng-repeat="quash in selected_user.possible_quashs_list" class="card my-2" ng-show="quash.status != 'created'">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="h5">{{quash.description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="oi oi-person"></span> created by <span class="badge">{{quash.taskmaster.pseudo}}</span>
-                        </div>
-                        <div class="col-3">
-                            <span class="oi" ng-class="quash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
-                            <span class="badge">{{quash.status}}</span>
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-clock"></span> {{quash.datetime_creation}}
-                        </div>
-                        <div class="col-3">
-                            <span class="oi oi-dollar"></span> {{quash.reward}}
-                        </div>
-                        <div class="col-3" ng-show="quash.status == 'quasher_accepted'">
-                            <span class="oi oi-thumb-up"></span> Hired
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" ng-show="quash.status == 'quasher_accepted'">
-                    <div class="row">
-                        <div class="col-1">
-                            <img ng-src="{{quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            <p class="h5">Conversation with {{quash.taskmaster.firstname}}</p>
-                            <p class="">my conversation with {{quash.taskmaster.firstname}} will soon appear when the chat will be developped</p>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-success" ng-click="makeQuashApplication(quash)" ng-show="quash.already_applied != true && (quash.status == 'created' || quash.status == 'quasher_pending')"><span class="oi oi-thumb-up"></span> I can do it!</button>
-                </div>
-                <div class="card-body" ng-show="quash.status == 'quasher_pending'">
-                    <div class="row my-2" ng-repeat="offer in quash.offers">
-                        <div class="col-1">
-                            <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
-                        </div>
-                        <div class="col-11">
-                            <p class="h5">{{offer.firstname}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+            <!-- Interesting quashs -->
+            <div ng-repeat="interesting_quash in selected_user.interesting_quashs_list" class="card border-success mb-2" ng-show="show_new_interesting_quashs" quash="interesting_quash" quasher="selected_user"></div>
+            <!-- Quashs in progress -->
+            <div ng-repeat="quash in selected_user.possible_quashs_list" class="card my-2" ng-show="quash.status != 'created'" quash="quash"></div>
+
+        </div> <!-- / QUASHS -->
+    </div> <!-- / USER SELECTED ROW -->
+</div> <!-- / MAIN CONTAINER -->

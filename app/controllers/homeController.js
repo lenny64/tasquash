@@ -1,4 +1,4 @@
-tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'apiService', 'sessionService', function($scope, $cookies, $routeParams, $apiService, $sessionService) {
+var homeController = tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'apiService', 'sessionService', function($scope, $cookies, $routeParams, $apiService, $sessionService) {
 
     $scope.logged_in = $sessionService.getUserLoggedIn();
 
@@ -143,4 +143,34 @@ tasquash.controller('homeController', ['$scope', '$cookies', '$routeParams', 'ap
     $scope.view = 'tasks';
     $scope.getAllUsers();
     $scope.getAllSkills();
+}]);
+
+homeController.directive('task', function() {
+    return {
+        restrict: 'A',
+        templateUrl: 'views/task/task.html'
+    }
+});
+
+homeController.directive('quash', ['apiService', function($apiService) {
+    return {
+        restrict: 'A',
+        scope: {
+            'quash': '=',
+            'quasher': '='
+        },
+        templateUrl: 'views/quash/quash.html',
+        link: function($scope, element, attrs) {
+            $scope.makeQuashApplication = function(quash) {
+                console.log($scope.quasher);
+                var data = {
+                    quasher: $scope.quasher.id,
+                    task_id: quash.id
+                };
+                $apiService.makeQuashApplication(data).then(function(reponse) {
+                    $scope.getPossibleQuashs();
+                });
+            }
+        }
+    }
 }]);

@@ -1,0 +1,59 @@
+<div class="card-header">
+    <div class="row">
+        <div class="col-12">
+            <p class="h5">{{quash.description}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <img ng-src="{{quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
+        </div>
+        <div class="col-11">
+            created by <span class="badge">{{quash.taskmaster.pseudo}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <span class="oi" ng-class="quash.status == 'quasher_accepted' ? 'oi-lock-locked' : 'oi-lock-unlocked'"></span>
+            <span class="badge">{{quash.status}}</span>
+        </div>
+        <div class="col-3">
+            <span class="oi oi-clock"></span> {{quash.datetime_creation}}
+        </div>
+        <div class="col-3">
+            <span class="oi oi-dollar"></span> {{quash.reward}}
+        </div>
+        <div class="col-3" ng-show="quash.status == 'quasher_accepted'">
+            <span class="oi oi-thumb-up"></span> Hired
+        </div>
+    </div>
+</div>
+<div class="card-body" ng-show="quash.status == 'quasher_accepted'">
+    <div class="row">
+        <div class="col-1">
+            <img ng-src="{{quash.taskmaster.photo}}" class="img-fluid rounded" alt="">
+        </div>
+        <div class="col-11">
+            <p class="h5">Conversation with {{quash.taskmaster.firstname}}</p>
+            <p class="">my conversation with {{quash.taskmaster.firstname}} will soon appear when the chat will be developped</p>
+        </div>
+    </div>
+    <!-- <button type="button" class="btn btn-sm btn-success" ng-click="makeQuashApplication(quash)" ng-show="quash.already_applied != true && (quash.status == 'created' || quash.status == 'quasher_pending')"><span class="oi oi-thumb-up"></span> I can do it!</button> -->
+</div>
+<div class="card-body" ng-show="quash.status == 'quasher_pending'">
+    <div class="row my-2" ng-repeat="offer in quash.offers">
+        <div class="col-1">
+            <img ng-src="{{offer.photo}}" class="img-fluid rounded" alt="">
+        </div>
+        <div class="col-11">
+            <p class="h5">{{offer.firstname}}</p>
+        </div>
+    </div>
+</div>
+<div class="card-body" ng-show="quash.status == 'created'">
+    <div class="row my-2">
+        <div class="col-12">
+            <button type="button" class="btn btn-outline-success" ng-click="makeQuashApplication(quash)"><span class="oi oi-check"></span> Accept to do this task</button>
+        </div>
+    </div>
+</div>
